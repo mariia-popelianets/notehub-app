@@ -33,8 +33,6 @@ export default function SignUpPage() {
 
   return (
     <main className={css.mainContent}>
-      <h1 className={css.formTitle}>Sign up</h1>
-
       <form
         className={css.form}
         onSubmit={(event) => {
@@ -44,6 +42,7 @@ export default function SignUpPage() {
           handleSubmit(formData);
         }}
       >
+        <h1 className={css.formTitle}>Create account</h1>
         <div className={css.formGroup}>
           <label htmlFor="email">Email</label>
 
@@ -70,7 +69,7 @@ export default function SignUpPage() {
 
         <div className={css.actions}>
           <button type="submit" className={css.submitButton}>
-            Register
+            Sign up
           </button>
         </div>
 

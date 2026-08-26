@@ -16,15 +16,17 @@ export default function AuthProvider({
 
   useEffect(() => {
     const initAuth = async () => {
-      const isValid = await checkSession();
-      if (isValid) {
-        try {
-          const user = await getMe();
-          if (user) setUser(user);
-        } catch {
+      try {
+        const isValid = await checkSession();
+
+        if (!isValid) {
           clearIsAuthenticated();
+          return;
         }
-      } else {
+
+        const user = await getMe();
+        setUser(user);
+      } catch {
         clearIsAuthenticated();
       }
     };

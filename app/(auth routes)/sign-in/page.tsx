@@ -1,7 +1,7 @@
 "use client";
 
 import css from "./SignInPage.module.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { login, type LoginRequest } from "@/lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
@@ -9,7 +9,7 @@ import { useAuthStore } from "@/lib/store/authStore";
 export default function SignInPage() {
   const router = useRouter();
   const setUser = useAuthStore((state) => state.setUser);
-
+  const formRef = useRef<HTMLFormElement>(null);
   const [error, setError] = useState<string>("");
 
   const handleSubmit = async (formData: FormData) => {
@@ -30,10 +30,23 @@ export default function SignInPage() {
       }
     }
   };
+  const handleFillDemo = () => {
+    const form = formRef.current;
 
+    if (!form) return;
+
+    const emailInput = form.elements.namedItem("email") as HTMLInputElement;
+    const passwordInput = form.elements.namedItem(
+      "password",
+    ) as HTMLInputElement;
+
+    emailInput.value = "demo.notehub@gmail.com";
+    passwordInput.value = "DemoNoteHub123!";
+  };
   return (
     <main className={css.mainContent}>
       <form
+        ref={formRef}
         className={css.form}
         onSubmit={(event) => {
           event.preventDefault();
@@ -42,7 +55,7 @@ export default function SignInPage() {
           handleSubmit(formData);
         }}
       >
-        <h1 className={css.formTitle}>Sign in</h1>
+        <h1 className={css.formTitle}>Welcome back</h1>
 
         <div className={css.formGroup}>
           <label htmlFor="email">Email</label>
@@ -69,6 +82,13 @@ export default function SignInPage() {
         <div className={css.actions}>
           <button type="submit" className={css.submitButton}>
             Log in
+          </button>
+          <button
+            type="button"
+            className={css.demoButton}
+            onClick={handleFillDemo}
+          >
+            Try Demo Account
           </button>
         </div>
 

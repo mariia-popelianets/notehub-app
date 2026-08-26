@@ -12,9 +12,12 @@ export default function AuthNavigation() {
   const { isAuthenticated, user, clearIsAuthenticated } = useAuthStore();
 
   const handleLogout = async () => {
-    await logout();
-    clearIsAuthenticated();
-    router.push("/sign-in");
+    try {
+      await logout();
+    } finally {
+      clearIsAuthenticated();
+      router.push("/sign-in");
+    }
   };
 
   if (isAuthenticated) {
@@ -45,7 +48,7 @@ export default function AuthNavigation() {
     <>
       <li className={css.navigationItem}>
         <Link href="/sign-in" className={css.navigationLink}>
-          Login
+          Log in
         </Link>
       </li>
 
